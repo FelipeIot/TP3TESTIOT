@@ -1,0 +1,50 @@
+
+
+
+
+##docker swarm init; # solo una vez
+##docker stack deploy -c- repo < docker-compose.yml
+
+#obtener ip correcta con 
+
+docker network inspect repo_default | fgrep Subnet
+
+Puede ser necesario eliminar entradas anteriores, no la primera vez
+
+cat << EOF | sudo tee --append /etc/hosts > /dev/null
+172.19.0.1      api-users.smauec.net
+172.19.0.1      api-rules.smauec.net
+172.19.0.1      api-events.smauec.net
+172.19.0.1      www.smauec.net
+EOF
+
+
+
+
+
+
+# diagnósticos
+
+           log      real
+broker      ok      ??
+mongo       ok      connection accepted from 172.21.0.5
+pgadmin     ok      sudo: setrlimit(RLIMIT_CORE): Operation not permitted
+odata       ok      ??
+
+postgres_1    | 2021-05-07 00:14:29.202 UTC [63] FATAL:  password authentication failed for user "smauec_test"
+postgres_1    | 2021-05-07 00:14:29.202 UTC [63] DETAIL:  Role "smauec_test" does not exist.
+postgres_1    | 	Connection matched pg_hba.conf line 95: "host all all all md5"
+postgres_1    | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+
+proxy                      80
+broker                     1883
+postgresq     172.21.0.3   5432  
+api-users                  8081
+api-rules                  8082
+api-events                 8083
+odata         172.21.0.5   8084
+pgadmin                    8090
+
+mongo 27017
+

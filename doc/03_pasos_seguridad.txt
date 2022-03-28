@@ -1,0 +1,64 @@
+sudo apt install wireshark nmap testssl.sh
+#  Shoud non-superusers be able to capture packets? -> <Yes>
+
+sudo addgroup "$USER" wireshark
+
+## logout/login
+
+## wordpress
+
+#OPCION mint
+   sudo apt install ruby-dev
+
+#OPCION ubuntu
+   sudo apt install ruby-dev ubuntu-dev-tools
+
+sudo gem install wpscan
+
+
+## burpsuite
+https://portswigger.net/burp/releases/download?product=community&version=2021.5.1&type=Linux
+sh burpsuite_community_linux_v2021_5_1.sh
+
+
+## zap proxy
+https://github.com/zaproxy/zaproxy/releases/download/v2.10.0/ZAP_2_10_0_unix.sh
+sudo sh ZAP_2_10_0_unix.sh
+
+# ejecuciones
+
+wpscan --url https://www.angrybirds.com
+
+testssl https://sensor
+
+
+TLS Sniffing
+
+touch /home/$USER/sslkeylog.log
+
+wireshark
+preferences
+protocols
+SSL
+(Pre)-Master-Secret log filename <= /home/$USER/sslkeylog.log
+RSA keys list <= 127.0.0.1 443 http /home/$USER/sslcert/private/sitio1-key.pem
+
+Capture loopback
+
+Firefox
+
+export SSLKEYLOGFILE=/home/$USER/sslkeylog.log firefox
+
+
+
+
+
+Wireshark
+
+tcp.port == 443 && ssl.record.length > 66
+
+
+https://seguridad-agile.blogspot.com/2019/09/diagnostico-de-http-headers-con-polymer.html
+
+
+
