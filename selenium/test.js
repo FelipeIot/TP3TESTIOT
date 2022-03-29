@@ -1,32 +1,35 @@
-const {Builder, By, until, Key, Capabilities} = require('selenium-webdriver');
-const {expect} = require('chai');
+const { Builder, By, until, Key, Capabilities } = require('selenium-webdriver');
+const { expect } = require('chai');
 var firefox = require('selenium-webdriver/firefox');
 //var profilePath = '/home/tsiot/.mozilla/firefox/zoa6kvyg.default';
 var profilePath = '/home/felipe/.mozilla/firefox/eq93dlec.default-release';
-let TIMEOUT=20000;
+let TIMEOUT = 0000;
 
-describe('test multi site with firefox', function() {
+describe('test multi site with firefox', function () {
    let driver;
 
    const options = new firefox.Options();
    options.setProfile(profilePath);
 
-   before(async function() {
-/*      driver = new Builder().withCapabilities(
-	       Capabilities.firefox().set("acceptInsecureCerts", true)
-      ).build();*/
+   before(async function () {
+      /*      driver = new Builder().withCapabilities(
+                Capabilities.firefox().set("acceptInsecureCerts", true)
+            ).build();*/
       driver = new Builder().forBrowser('firefox').
-		   setFirefoxOptions(options).build();	   
+         setFirefoxOptions(options).build();
 
    });
 
-   it('check reset is working', async function() {
+   it('check reset is working', async function () {
       this.timeout(TIMEOUT);
+
       await driver.get('https://sensor/reset');
-      
-      driver.findElement(By.id('action')).then(element=>{
-         expect(element.text).to.equal('reset');  
-      });
+
+      let value = await driver.findElement(By.id('action')).getText();
+
+      expect(value).to.equal('reset');
+
+
    });
 
    it('check that sitio1 does not generate hits', async function() {
@@ -70,16 +73,16 @@ describe('test multi site with firefox', function() {
    it('check that the endpoint mult multiplies a by b', async function() {
       this.timeout(TIMEOUT);
       await driver.get('https://sensor/multiplicar.html');
-      await driver.findElement(By.id('a')).then(element=>element.sendKeys("2"));
-      await driver.findElement(By.id('b')).then(element=>element.sendKeys("4"));
-      await driver.findElement(By.id('send').click());
-
-      await driver.findElement(By.id('res')).then(element=> expect(element.text).to.equal('8'));
+      await driver.findElement(By.id('a')).sendKeys('2');
+      await driver.findElement(By.id('b')).sendKeys('9');
+      await driver.findElement(By.id('send')).click();
+      let value = await driver.findElement(By.id('rest')).getText();
+      expect(value).to.equal('18');
 
    });
 
-   after( () =>
-   
+   after(() =>
+
       driver && driver.quit()
    );
 });
