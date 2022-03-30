@@ -20,16 +20,13 @@ describe('test multi site with firefox', function () {
 
    });
 
-   it('check reset is working', async function () {
+   it('check reset is working', async function() {
       this.timeout(TIMEOUT);
-
       await driver.get('https://sensor/reset');
-
-      let value = await driver.findElement(By.id('action')).getText();
-
-      expect(value).to.equal('reset');
-
-
+      
+      driver.findElement(By.id('action')).then(element=>{
+         expect(element.text).to.equal('reset');  
+      });
    });
 
    it('check that sitio1 does not generate hits', async function() {

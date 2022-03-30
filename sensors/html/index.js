@@ -71,7 +71,11 @@ app.get('/multiplicar.html', function (req, res) {
 console.log('multiplicar.html');
 
 })
+app.post('/multiplicar', function (req, res) {
+   
+   res.sendFile('postOk.html', { root: __dirname }); console.log('post hit');
 
+})
 
 app.post('/cargar_datos.php', function (req, res) {
    ++count;
